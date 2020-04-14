@@ -1,0 +1,50 @@
+.node {
+    height: 28px;
+    width: 28px;
+    outline: 1px solid grey;
+    display: inline-block;
+}
+
+.node-start {
+    background-color: rgb(11, 155, 11);
+}
+
+.node-finish {
+    background-color: rgb(240, 72, 72);
+}
+
+.node-wall {
+    background-color: darkblue;
+    animation-name: wallNode;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
+}
+
+.node-explore {
+    animation-name: exploreNode;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    background-color: pink;
+}
+
+.node-path {
+    background-color: yellow;
+}
+
+@keyframes exploreNode {
+    0% {
+        transform: scale(0.5);
+        border-radius: 75%;
+    }
+}
+
+@keyframes wallNode {
+    0% {
+        transform: scale(1.2);
+    }
+}
