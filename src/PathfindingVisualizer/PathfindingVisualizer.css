@@ -70,7 +70,7 @@ label {
     background-color: rgb(255, 76, 10);
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 600px) {
     .button-container {
         display: flex;
         flex-direction: row;
@@ -87,7 +87,6 @@ label {
         border: 1px solid white;
         border-radius: 5px;
         padding: 8px;
-        float: left;
     }
 
     button {
@@ -98,6 +97,42 @@ label {
     label {
         order: 3;
         width: 30.5%;
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1439px) {
+    .button-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-evenly;
+        text-align: center;
+        padding: 8px;
+    }
+
+    #bar-title {
+        width: 80%;
+        order: 1;
+        border: 1px solid white;
+        border-radius: 5px;
+        padding: 8px;
+        letter-spacing: 2px;
+    }
+
+    button {
+        width: 20%;
+        order: 2;
+        font-size: 14px;
+    }
+
+    label {
+        order: 3;
+        width: 50%;
+        padding-top: 5px;
+        padding-bottom: 20px;
+        font-size: 17px;
     }
 }
 

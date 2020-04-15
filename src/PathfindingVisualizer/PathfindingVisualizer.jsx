@@ -41,6 +41,16 @@ export default class PathfindingVisualizer extends React.Component {
         this.setState({grid});
         calculateDimensions();
         this.dimensionReset(); // remove previous paths
+
+        // change text of BFS and DFS buttons depending on the width
+        if (window.innerWidth >= 740 && window.innerWidth < 1440) {
+            document.getElementById('bfs-button').innerText = 'Breadth-first search';
+            document.getElementById('dfs-button').innerText = 'Depth-first search';
+        }
+        else {
+            document.getElementById('bfs-button').innerText = 'BFS';
+            document.getElementById('dfs-button').innerText = 'DFS';
+        }
     }
 
     dimensionReset() {
@@ -365,8 +375,8 @@ export default class PathfindingVisualizer extends React.Component {
                     <button className='algo-buttons' disabled={this.state.animationInProgress} onClick={() => this.dijkstra()}>Dijkstra's algo</button>
                     <button className='algo-buttons' disabled={this.state.animationInProgress} onClick={() => this.aStar()}>A* Search</button>
                     <button className='algo-buttons' disabled={this.state.animationInProgress} onClick={() => this.bidirectionalSearch()}>Bidirectional Search</button>
-                    <button className='algo-buttons' disabled={this.state.animationInProgress} onClick={() => this.bfs()}>BFS</button>
-                    <button className='algo-buttons' disabled={this.state.animationInProgress} onClick={() => this.dfs()}>DFS</button>
+                    <button className='algo-buttons' id='bfs-button' disabled={this.state.animationInProgress} onClick={() => this.bfs()}>BFS</button>
+                    <button className='algo-buttons' id='dfs-button' disabled={this.state.animationInProgress} onClick={() => this.dfs()}>DFS</button>
                     <button className='additional-buttons' disabled={this.state.animationInProgress} onClick={() => this.createRandomGrid()}>CREATE RANDOM GRID</button>
                 </div>
 
