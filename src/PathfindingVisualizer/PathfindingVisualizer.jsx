@@ -7,12 +7,12 @@ import {dijkstrasAlgo} from '../PathfindingAlgorithms/dijkstra';
 import {aStarSearch} from '../PathfindingAlgorithms/astar';
 import {bidirectionalSearch} from '../PathfindingAlgorithms/bidirectionalSearch';
 
-const ROWS = 19;
-const COLS = 53;
-const START_NODE_ROW = 9;
-const START_NODE_COL = 9;
-const FINISH_NODE_ROW = 9;
-const FINISH_NODE_COL = 43;
+var ROWS = 0;
+var COLS = 53;
+var START_NODE_ROW = 9;
+var START_NODE_COL = 9;
+var FINISH_NODE_ROW = 9;
+var FINISH_NODE_COL = 43;
 
 export default class PathfindingVisualizer extends React.Component {
     constructor(props) {
@@ -23,12 +23,35 @@ export default class PathfindingVisualizer extends React.Component {
             mouseIsPressed: false,
             crossingCorners: false,
             animationInProgress: false,
+            width: 0,
+            height: 0,
         };
     }
 
     componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
         const grid = getInitialGrid();
         this.setState({grid});
+    }
+
+    updateWindowDimensions = () => {
+        this.setState({width: window.innerWidth, height: window.innerHeight});
+        const grid = getInitialGrid();
+        this.setState({grid});
+        calculateDimensions();
+        this.dimensionReset(); // remove previous paths
+    }
+
+    dimensionReset() {
+        const {grid} = this.state;
+
+        for (let row = 0; row < grid.length; ++row) {
+            for (let col = 0; col < grid[0].length; ++col) {
+                if (!grid[row][col].isStart && !grid[row][col].isFinish)
+                    document.getElementById(`node-${row}-${col}`).className = 'node';
+            }
+        }
     }
 
     toggleCheckbox = () => {
@@ -94,10 +117,11 @@ export default class PathfindingVisualizer extends React.Component {
     createRandomGrid() {
         this.removePaths(); // clear paths from previous search
         const grid = getInitialGrid();
+        const NUMBER_OF_OBSTACLES = Math.floor((ROWS * COLS) / 5);
 
-        for (let i = 0; i < 235; ++i) { // randomly choosing coordinates of walls
-            let x = Math.floor(Math.random() * 19);
-            let y = Math.floor(Math.random() * 53);
+        for (let i = 0; i < NUMBER_OF_OBSTACLES; ++i) { // randomly choosing coordinates of walls
+            let x = Math.floor(Math.random() * ROWS);
+            let y = Math.floor(Math.random() * COLS);
 
             if (!grid[x][y].isWall && !grid[x][y].isStart && !grid[x][y].isFinish) {
                 grid[x][y] = createNode(x, y);
@@ -168,7 +192,7 @@ export default class PathfindingVisualizer extends React.Component {
 
                 setTimeout(() => { // wait until animation ends
                     this.toggleButtons(); // and then activate buttons
-                }, 20 * i + 25 * (path.length - 2));
+                }, 20 * i + 25 * (path.length + 1));
 
                 return;
             }
@@ -203,7 +227,7 @@ export default class PathfindingVisualizer extends React.Component {
 
                 setTimeout(() => {
                     this.toggleButtons();
-                }, 34 * i + 25 * (path.length - 2));
+                }, 34 * i + 25 * (path.length + 1));
 
                 return;
             }
@@ -235,7 +259,7 @@ export default class PathfindingVisualizer extends React.Component {
 
                 setTimeout(() => { // wait until animation ends
                     this.toggleButtons(); // and then activate buttons
-                }, 15 * i + 25 * (path.length - 2));
+                }, 15 * i + 25 * (path.length + 1));
 
                 return;
             }
@@ -281,7 +305,7 @@ export default class PathfindingVisualizer extends React.Component {
 
                 setTimeout(() => { // wait until animation ends
                     this.toggleButtons(); // and then activate buttons
-                }, 25 * i + 25 * (path.length - 2));
+                }, 25 * i + 25 * (path.length + 1));
 
                 return;
             }
@@ -312,7 +336,7 @@ export default class PathfindingVisualizer extends React.Component {
 
                 setTimeout(() => { // wait until animations ends
                     this.toggleButtons(); // and then activate buttons
-                }, 30 * i + 25 * (path.length - 2));
+                }, 30 * i + 25 * (path.length + 1));
 
                 return;
             }
@@ -334,7 +358,7 @@ export default class PathfindingVisualizer extends React.Component {
                     <h2 id='bar-title'>Pathfinding Visualizer</h2>
                     <button className='grid-buttons' disabled={this.state.animationInProgress} onClick={() => this.resetGrid()}>RESET GRID</button>
                     <button className='grid-buttons' disabled={this.state.animationInProgress} onClick={() => this.removePaths()}>CLEAR PATHS</button>
-                    <label>
+                    <label className='corner-label'>
                         Allow crossing corners
                         <input type='checkbox' id='check' checked={this.state.crossingCorners} onChange={this.toggleCheckbox}/>
                     </label>
@@ -381,8 +405,19 @@ export default class PathfindingVisualizer extends React.Component {
     }
 }
 
+const calculateDimensions = () => {
+    ROWS = Math.floor((window.innerHeight - 200) / 28); // calculating number
+    COLS = Math.floor((window.innerWidth - 50) / 28); // of rows and columns
+    START_NODE_ROW = Math.floor(ROWS / 2); // depending on the screen size
+    if (ROWS % 2 !== 1) --START_NODE_ROW; // and calculating positions
+    FINISH_NODE_ROW = START_NODE_ROW; // of cells for the starting and
+    START_NODE_COL = Math.floor(COLS / 6); // finishing node
+    FINISH_NODE_COL = COLS - START_NODE_COL - 1;
+}
+
 const getInitialGrid = () => {
     const grid = [];
+    calculateDimensions();
 
     for (let row = 0; row < ROWS; ++row) {
         const curRow = [];
