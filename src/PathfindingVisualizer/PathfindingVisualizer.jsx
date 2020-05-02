@@ -82,6 +82,7 @@ export default class PathfindingVisualizer extends React.Component {
     }
 
     handleMouseDown(row, col) { // put/remove a wall
+        if (this.state.grid[row][col].isStart || this.state.grid[row][col].isFinish) return; // start/finish node
         const oldNodeIsWall = this.state.grid[row][col].isWall;
         const newGrid = this.state.grid;
         newGrid[row][col] = createNode(row, col);
@@ -91,6 +92,7 @@ export default class PathfindingVisualizer extends React.Component {
 
     handleMouseEnter(row, col) { // put/remove a wall
         if (!this.state.mouseIsPressed) return; // or do nothing if mouse is not pressed
+        if (this.state.grid[row][col].isStart || this.state.grid[row][col].isFinish) return; // start/finish node
         const oldNodeIsWall = this.state.grid[row][col].isWall;
         const newGrid = this.state.grid;
         newGrid[row][col] = createNode(row, col);
