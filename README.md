@@ -3,10 +3,10 @@ Application for visualizing several pathfinding algorithms: Dijkstra's SSSP algo
 
 ## Algorithms used in the app
 **Dijkstra's algorithm** (guarantees the shortest path): the most used pathfinding algorithm because of its simplicity and speed.<br>
-**A* search** (guarantees the shortest path): algorithm that uses heuristics to find the shortest path much faster than Dijkstra's algo.<br>
+<b>A* search</b> (guarantees the shortest path): algorithm that uses heuristics to find the shortest path much faster than Dijkstra's algo.<br>
 **Bidirectional search** (guarantees the shortest path): explores from both start and the finish node simultaneously in a BFS manner.<br>
-**BFS** -> Breadth-first search (guarantees the shortest path): very simple algorithm that visits all non-visited neighbors at every step.<br>
-**DFS** -> Depth-first search (*does NOT guarantee* the shortest path): simple recursive algorithm that visits nodes without trying to find the shortest path.<br>
+**BFS -> Breadth-first search** (guarantees the shortest path): very simple algorithm that visits all non-visited neighbors at every step.<br>
+**DFS -> Depth-first search** (*does NOT guarantee* the shortest path): simple recursive algorithm that visits nodes without trying to find the shortest path.<br>
 
 ## Additional features
 To make it easier to see how the algorithm works, I've created a few functions such as **RESET GRID** that removes both paths and walls from the grid, **CLEAR PATHS** that removes paths of the previous animation, and **CREATE RANDOM GRID** that creates a randomly generated grid so you don't have to draw walls to see how different algorithms behave.
